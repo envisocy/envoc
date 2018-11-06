@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        h1 {
+            display: inline;
+            line-height: 0;
+        }
+        footer a {
+            font-size: 14px;
+            text-decoration: none;
+            color: rgb(120, 120, 120);
+        }
+    </style>
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="{% url '主页' %}">
+            <h1><img src="{% static 'image/E-color-red.png' %}" style="width: 20px"></h1>&nbsp;
+            Envisocy Studio</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                  <a href="{% url '主页' %}" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a href="{% url '清单' %}" class="nav-link">TodoList</a>
+              </li>
+              <!--
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            -->
+          </ul>
+          <form class="form-inline mt-2 mt-md-0">
+              <a href="#">
+                  <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">Sign In</button>
+              </a>
+              <a href="#">
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign Up</button>
+              </a>
+          </form>
+        </div>
+      </nav>
+        <div style="height: 60px"></div>
+    </header>
+    <main>
+        {% block content %}
+            <div style="height: 800px;">
+            </div>
+        {% endblock %}
+    </main>>
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">
+            <div class="container text-center">
+				<p>&copy;2018 Envisocy Studio
+                    <a href="http://www.miitbeian.gov.cn" target="_blank" title="信息产业部备案">豫 ICP备17050061号-1<img width="13" height="16" src="{% static 'image/copy_right_owner.png' %}"></a> -
+                    <a href="http://www.beian.gov.cn/portal/index" title="公安公网备案" target="_blank"><img width="15" height="15" src="{% static 'image/copy_right_police.png' %}"> 41010302002365</a></p>
+			</div>
+        </span>
+      </div>
+    </footer>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    {% block js %}
+    {% endblock %}
+</body>
+</html>
