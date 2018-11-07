@@ -1,0 +1,40 @@
+{% extends 'todolist/base.html' %}
+
+{% block title %}
+    TodoList
+{% endblock %}
+
+{% block css %}
+    <style>
+        main > div {
+           margin: 20px auto;
+        }
+        main > div > h2 {
+            display: block;
+            margin: 20px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="w-75">
+        <h2>首页，这是TodoList区</h2>
+        <table class="table table-hover">
+            <thead>
+            <th scope="col">aa</th>
+            <th scope="col">bb</th>
+            <th scope="col">cc</th>
+            <th scope="col">dd</th>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>a</td>
+                <td>b</td>
+                <td>c</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

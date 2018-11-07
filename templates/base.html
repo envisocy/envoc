@@ -41,10 +41,10 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                  <a href="{% url '主页' %}" class="nav-link">Home</a>
+                  <a href="{% url '主页' %}" class="nav-link" id="home">Home</a>
               </li>
               <li class="nav-item">
-                  <a href="{% url '清单' %}" class="nav-link">TodoList</a>
+                  <a href="{% url '清单' %}" class="nav-link" id="todolist">TodoList</a>
               </li>
               <!--
             <li class="nav-item active">
@@ -100,6 +100,8 @@
     <script src="{% static 'js/jQuery-3.2.1.min.js' %}" crossorigin="anonymous"></script>
     <script src="{% static 'js/popper-1.12.9.min.js' %}" crossorigin="anonymous"></script>
     <script src="{% static 'js/bootstrap-4.0.0.min.js' %}" crossorigin="anonymous"></script>
+    {% block js-app %}
+    {% endblock %}
     {% block js %}
     {% endblock %}
 </body>
