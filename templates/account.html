@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Sign In
+{% endblock %}
+
+{% block css %}
+    <style>
+        main > h3 {
+            display: block;
+            margin: 10px auto;
+            line-height: 80px;
+        }
+        main > ul {
+            list-style: none;
+            width: 30%;
+            margin: 0 auto;
+        }
+        main > ul {
+            line-height: 40px;
+        }
+        main > ul > li:nth-child(n+2) {
+            border-top: 1px solid #000;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h3>当前用户信息</h3>
+    <ul>
+        <li>用户名：{{ usermessage.username }}</li>
+        <li>邮箱：{{ usermessage.email }}</li>
+        <li>注册时间：{{ usermessage.date_joined }}</li>
+        <li>最近登录：{{ usermessage.last_login }}</li>
+    </ul>
+    <div style="height: 400px;"></div>
+{% endblock %}

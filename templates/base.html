@@ -9,9 +9,16 @@
     </title>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
+        main {
+            text-align: center;
+        }
         h1 {
             display: inline;
             line-height: 0;
+        }
+        h1 > img {
+            margin-top: 4px;
+            width: 24px;
         }
         footer a {
             font-size: 14px;
@@ -26,7 +33,7 @@
     <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="{% url '主页' %}">
-            <h1><img src="{% static 'image/E-color-red.png' %}" style="width: 20px"></h1>&nbsp;
+            <h1><img src="{% static 'image/E-color-red.png' %}"></h1>&nbsp;
             Envisocy Studio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -51,14 +58,24 @@
             </li>
             -->
           </ul>
-          <form class="form-inline mt-2 mt-md-0">
-              <a href="#">
-                  <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">Sign In</button>
-              </a>
-              <a href="#">
-                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign Up</button>
-              </a>
-          </form>
+            {% if user.is_authenticated %}
+              <form class="form-inline mt-2 mt-md-0">
+                  <a href="{% url '用户信息' %}" style="text-decoration: none;color: rgb(230, 230, 230);">您好，{{ user }}！&nbsp;&nbsp;
+                  </a>
+                  <a href="{% url '登出' %}">
+                      <button class="btn btn-outline-success my-2 my-sm-0" type="button">Sign Out</button>
+                  </a>
+              </form>
+            {% else %}
+            <form class="form-inline mt-2 mt-md-0">
+                <a href="{% url '登陆' %}">
+                    <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="button">Sign In</button>
+                </a>
+                <a href="{% url '注册' %}">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="button">Sign Up</button>
+                </a>
+            </form>
+            {% endif %}
         </div>
       </nav>
         <div style="height: 60px"></div>
@@ -73,7 +90,7 @@
       <div class="container">
         <span class="text-muted">
             <div class="container text-center">
-				<p>&copy;2018 Envisocy Studio
+				<p>&copy;2019 Envisocy Studio
                     <a href="http://www.miitbeian.gov.cn" target="_blank" title="信息产业部备案">豫 ICP备17050061号-1<img width="13" height="16" src="{% static 'image/copy_right_owner.png' %}"></a> -
                     <a href="http://www.beian.gov.cn/portal/index" title="公安公网备案" target="_blank"><img width="15" height="15" src="{% static 'image/copy_right_police.png' %}"> 41010302002365</a></p>
 			</div>

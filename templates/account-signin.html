@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Sign In
+{% endblock %}
+
+{% block css %}
+    {% load staticfiles %}
+    <style>
+        main {
+            display: -ms-flexbox;
+            display: -webkit-box;
+            display: flex;
+            -ms-flex-align: center;
+            -ms-flex-pack: center;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .form-signin {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            height: 600px;
+            margin: 0 auto;
+        }
+        .form-signin img {
+            margin: 40px auto 100px auto;
+        }
+        .form-signin > h1 {
+            line-height: 60px;
+        }
+        .form-signin .checkbox {
+            font-weight: 400;
+        }
+        .form-signin .form-control {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <form class="form-signin" action="{% url '登陆' %}" method="POST">
+        {% csrf_token %}
+      <img class="mb-4 text-center" src="{% static 'image/E-active.gif' %}" alt="" width="140" height="140" style="display: block">
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <label for="inputUsername" class="sr-only">Username</label>
+      <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Please Type Username Here">
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Please Type Password Here">
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div>
+        {% if warning %}
+        <p class="alert alert-danger mt-5 mb-3 text-muted">
+                {{ warning }}
+        </p>{% else %}
+            <p class="mt-5 mb-3 text-muted"> </p>
+        {% endif %}
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+{% endblock %}
