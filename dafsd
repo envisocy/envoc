@@ -1,0 +1,35 @@
+[33mcommit a25530fd8150f0cb1628a0b0632754399605dfb2[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: envisocy <envisocy@gmail.com>
+Date:   Sat Nov 10 11:47:35 2018 +0800
+
+    2018-11-10_Ver06_TodoList编辑功能
+
+[33mcommit 3372089c29f12ad8e0b5c0af7c40e71e1fe97a30[m
+Author: envisocy <envisocy@gmail.com>
+Date:   Wed Nov 7 18:00:44 2018 +0800
+
+    2018-11-07_Ver05TodoModell
+
+[33mcommit 228c89a416b49cff53309537b383af602d8bf8c6[m
+Author: envisocy <envisocy@gmail.com>
+Date:   Wed Nov 7 14:43:55 2018 +0800
+
+    2018-11-07_Ver04细节配置优化
+
+[33mcommit b0227a7921296e3c285da6986ae7beb76eefa0af[m
+Author: envisocy <envisocy@gmail.com>
+Date:   Wed Nov 7 11:36:12 2018 +0800
+
+    2018-11-07_Ver03登录功能实现
+
+[33mcommit fefa3312c746024b80179a281b32b26a2aa91ce2[m
+Author: envisocy <envisocy@gmail.com>
+Date:   Tue Nov 6 22:43:27 2018 +0800
+
+    2018-11-06_Ver02_templates模板
+
+[33mcommit a2430638d71dd6bd5cdff104177ac21dc4bd0b2c[m
+Author: envisocy <envisocy@gmail.com>
+Date:   Tue Nov 6 20:27:00 2018 +0800
+
+    2018-11-06_Ver01_初始化xadmin

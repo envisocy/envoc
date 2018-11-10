@@ -25,7 +25,7 @@
         <h2>首页，这是TodoList区</h2>
         <table class="table table-hover">
             <thead>
-            <th scope="col">Do</th>
+            <th scope="col">Done</th>
             <th scope="col">事件</th>
             <th scope="col">描述</th>
             <th scope="col">重要性</th>
@@ -37,7 +37,7 @@
             <tbody>
             {% for todolist in todolists %}
                 <tr>
-                    <th><input type="checkbox" {% if todolist.complete %} checked="checked" {% endif %} value="{{ todolist.id }}">
+                    <th><input class="done" type="checkbox" {% if todolist.complete %} checked="checked" {% endif %} value="{{ todolist.id }}">
                     </th>
                     <td class="td-event">{{ todolist.event }}</td>
                     <td class="td-describe">{{ todolist.describe }}</td>
@@ -47,7 +47,7 @@
                     <td class="td-remark">{{ todolist.remark }}</td>
                     <td>
                         <button type="button" class="edit btn btn-success" data-toggle="modal" data-target="#myModal">编辑</button>
-                        <a href="#" class="delete btn btn-success">删除</a>
+                        <button type="button" class="delete btn btn-success">删除</button>
                     </td>
                 </tr>
             {% endfor %}
@@ -145,7 +145,7 @@
             target.children('label').each(function () {
                 $(this).children('input').removeAttr('checked')
             })
-        }
+        };
         $('.edit').on('click', function () {
             $target = $(this).parent().parent();
             $('#input-id').attr('value', $target.children('th').children('input').attr('value'));
@@ -164,6 +164,36 @@
                 type: "POST",
                 dataType: 'json',
                 data: $('#form-submit').serialize(),
+                async: true,
+            });
+            window.location.reload()
+        });
+        $('.done').on('click', function () {
+            var done = $(this).prop('checked');
+            var id = $(this).attr('value');
+            console.log(id, done);
+            $.ajax({
+                url: "{% url '完成状态切换' %}",
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    "csrfmiddlewaretoken": "{{ csrf_token }}",
+                    "id": id,
+                    "done": done,
+                },
+                async: true,
+            });
+        })
+        $('.delete').on('click', function () {
+            var id = $(this).parent().parent().children('th').children('input').attr("value");
+            $.ajax({
+                url: "{% url '删除清单' %}",
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    "csrfmiddlewaretoken": "{{ csrf_token }}",
+                    "id": id,
+                },
                 async: true,
             });
             window.location.reload()

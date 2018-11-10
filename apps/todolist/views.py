@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from .models import TodoList
 
 # Create your views here.
@@ -22,13 +22,30 @@ def TodolistSubmitView(request):
 		remark = request.POST.get('remark')
 		# 存储数据
 		TodoList.objects.filter(id=id).update(
-			event=event,
-			describe=describe,
-			importance=importance,
-			flag=flag,
-			remind_time=remind_time,
-			remark=remark,
+			event = event,
+			describe = describe,
+			importance = importance,
+			flag = flag,
+			remind_time = remind_time,
+			remark = remark,
 		)
 		return render(request, 'todolist/todolist.html')
 	else:
 		return render(request, 'todolist/todolist.html')
+
+def TodolistCheckedView(request):
+	if request.method == 'POST':
+		id = request.POST.get('id')
+		done = request.POST.get('done')
+		TodoList.objects.filter(id=id).update(
+			complete = done.capitalize(),
+		)
+	return HttpResponse(200)
+
+def TodolistDeleteView(request):
+	if request.method == "POST":
+		id = request.POST.get('id')
+		TodoList.objects.filter(id=id).update(
+			achieve = False
+		)
+	return HttpResponse(200)
