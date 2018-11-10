@@ -19,4 +19,5 @@ from . import views
 
 urlpatterns = [
     path('', views.TodolistView, name='清单'),
+    path('submit', views.TodolistSubmitView, name='编辑清单'),
 ]

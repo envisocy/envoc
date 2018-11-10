@@ -1,14 +1,18 @@
 {% extends 'todolist/base.html' %}
 
+{% load staticfiles %}
+
 {% block title %}
     TodoList
 {% endblock %}
 
 {% block css %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css' %}">
     <style>
         main > div {
-           margin: 20px auto;
+            margin: 20px auto;
         }
+
         main > div > h2 {
             display: block;
             margin: 20px;
@@ -21,20 +25,149 @@
         <h2>首页，这是TodoList区</h2>
         <table class="table table-hover">
             <thead>
-            <th scope="col">aa</th>
-            <th scope="col">bb</th>
-            <th scope="col">cc</th>
-            <th scope="col">dd</th>
+            <th scope="col">Do</th>
+            <th scope="col">事件</th>
+            <th scope="col">描述</th>
+            <th scope="col">重要性</th>
+            <th scope="col">旗子</th>
+            <th scope="col">提醒时间</th>
+            <th scope="col">备注</th>
+            <th scope="col"></th>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>a</td>
-                <td>b</td>
-                <td>c</td>
-            </tr>
+            {% for todolist in todolists %}
+                <tr>
+                    <th><input type="checkbox" {% if todolist.complete %} checked="checked" {% endif %} value="{{ todolist.id }}">
+                    </th>
+                    <td class="td-event">{{ todolist.event }}</td>
+                    <td class="td-describe">{{ todolist.describe }}</td>
+                    <td class="td-importance">{{ todolist.importance }}</td>
+                    <td class="td-flag">{{ todolist.flag }}</td>
+                    <td class="td-remindtime">{{ todolist.remind_time }}</td>
+                    <td class="td-remark">{{ todolist.remark }}</td>
+                    <td>
+                        <button type="button" class="edit btn btn-success" data-toggle="modal" data-target="#myModal">编辑</button>
+                        <a href="#" class="delete btn btn-success">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
+            {% if message %}
+                <div>
+                    {{ message }}
+                </div>
+            {% endif %}
         </table>
+        <!-- 模态框 -->
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- 模态框头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">编辑 Todo 标签</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- 模态框主体 -->
+                    <div class="modal-body">
+                        <form action="{% url '编辑清单' %}" method="POST" id="form-submit">
+                            {% csrf_token %}
+                            <input id="input-id" type="hidden" name="id" value="">
+                            <br>
+                            <input id="input-event" type="event" name="event" class="form-control" placeholder="事件">
+                            <br>
+                            <textarea id="input-describe" name="describe" type="text" class="form-control w-100" placeholder="请输入描述"></textarea>
+                            <br>
+                            <b>重要性：</b>
+                            <label for="i-0"><input id="i-0" name="importance" type="radio" value="0"> 0 </label>
+                            <label for="i-1"><input id="i-1" name="importance" type="radio" value="1"> 1 </label>
+                            <label for="i-2"><input id="i-2" name="importance" type="radio" value="2"> 2 </label>
+                            <label for="i-3"><input id="i-3" name="importance" type="radio" value="3"> 3 </label>
+                            <label for="i-4"><input id="i-4" name="importance" type="radio" value="4"> 4 </label>
+                            <label for="i-5"><input id="i-5" name="importance" type="radio" value="5"> 5 </label>
+                            <label for="i-6"><input id="i-6" name="importance" type="radio" value="6"> 6 </label>
+                            <label for="i-7"><input id="i-7" name="importance" type="radio" value="7"> 7 </label>
+                            <label for="i-8"><input id="i-8" name="importance" type="radio" value="8"> 8 </label>
+                            <label for="i-9"><input id="i-9" name="importance" type="radio" value="9"> 9 </label>
+                            <br>
+                            <b>旗子：</b>
+                            <label for="f-0"><input id="f-0" name="flag" type="radio" value="0"> 0 </label>
+                            <label for="f-1"><input id="f-1" name="flag" type="radio" value="1"> 1 </label>
+                            <label for="f-2"><input id="f-2" name="flag" type="radio" value="2"> 2 </label>
+                            <label for="f-3"><input id="f-3" name="flag" type="radio" value="3"> 3 </label>
+                            <label for="f-4"><input id="f-4" name="flag" type="radio" value="4"> 4 </label>
+                            <br>
+                            <b>提醒时间：</b>
+                            <input id="input-remindtime" name="remind_time" type="datetime-local" class="form-control w-75" placeholder="提醒时间：" style="display: inline">
+                            <br><br>
+                            <textarea id="input-remark" name="remark" type="text" class="form-control w-100" placeholder="请输入备注"></textarea>
+                        </form>
+                    </div>
+
+                    <!-- 模态框底部 -->
+                    <div class="modal-footer">
+                        <button id="submit" type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+                        <button id="cancel" type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
+    <h1>{{ msg }}</h1>
+{% endblock %}
+
+{% block js %}
+    <script>
+        var timeString = function(time) {
+            var year = time.split('年')[0];
+            var month = time.split('月')[0].split('年')[1];
+            if (month.length == 1){
+                month = "0" + month;
+            }
+            var day = time.split('日')[0].split('月')[1];
+            if (day.length == 1){
+                day = "0" + day;
+            }
+            var hour = time.split(' ')[1].split(":")[0];
+            if (hour.length == 1){
+                hour = "0" + hour;
+            }
+            var min = time.split(':')[1];
+            if (min.length == 1){
+                min = "0" + min;
+            }
+            var time = year + "-" + month + "-" + day + "T" + hour + ":" + min;
+            return time
+        };
+        var clearChecked = function(target){
+            target.children('label').each(function () {
+                $(this).children('input').removeAttr('checked')
+            })
+        }
+        $('.edit').on('click', function () {
+            $target = $(this).parent().parent();
+            $('#input-id').attr('value', $target.children('th').children('input').attr('value'));
+            $('#input-event').attr('value', $target.children('.td-event').text());
+            var time = $target.children('.td-remindtime').text();
+            $('#input-remindtime').attr('value', timeString(time));
+            $('#input-describe').text($target.children('.td-describe').text());
+            $('#input-remark').text($target.children('.td-remark').text());
+            clearChecked($('#form-submit'));
+            $('#i-' + $target.children('.td-importance').text()).attr('checked', 'checked')
+            $('#f-' + $target.children('.td-flag').text()).attr('checked', 'checked')
+        });
+        $('#submit').on('click', function () {
+            $.ajax({
+                url: "{% url '编辑清单' %}",
+                type: "POST",
+                dataType: 'json',
+                data: $('#form-submit').serialize(),
+                async: true,
+            });
+            window.location.reload()
+        })
+    </script>
 {% endblock %}
 
