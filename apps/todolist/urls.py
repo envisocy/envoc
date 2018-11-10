@@ -22,4 +22,6 @@ urlpatterns = [
     path('submit', views.TodolistSubmitView, name='编辑清单'),
     path('checked', views.TodolistCheckedView, name='完成状态切换'),
     path('delete', views.TodolistDeleteView, name='删除清单'),
+    path('recycle', views.RecycleView, name='回收站'),
+    path('recovery', views.TodolistRecoveryView, name='恢复清单'),
 ]

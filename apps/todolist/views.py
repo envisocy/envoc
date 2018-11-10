@@ -1,11 +1,12 @@
 from django.shortcuts import render, HttpResponse
 from .models import TodoList
+from django.utils import timezone
 
 # Create your views here.
 
 def TodolistView(request):
 	try:
-		todolists = TodoList.objects.filter(achieve=1, user_id=request.user).all().order_by('-remind_time')
+		todolists = TodoList.objects.filter(achieve=1, user_id=request.user).all().order_by('complete', '-remind_time')
 	except:
 		todolists = {}
 	return render(request, "todolist/todolist.html", {'todolists': todolists})
@@ -20,15 +21,30 @@ def TodolistSubmitView(request):
 		flag = request.POST.get('flag')
 		remind_time = request.POST.get('remind_time')
 		remark = request.POST.get('remark')
+		user_id = request.POST.get('user_id')
 		# 存储数据
-		TodoList.objects.filter(id=id).update(
-			event = event,
-			describe = describe,
-			importance = importance,
-			flag = flag,
-			remind_time = remind_time,
-			remark = remark,
-		)
+		if id != '0':
+			TodoList.objects.filter(id=id).update(
+				event = event,
+				describe = describe,
+				importance = importance,
+				flag = flag,
+				remind_time = remind_time,
+				remark = remark,
+			)
+		else:
+			TodoList.objects.create(
+				event = event,
+				describe = describe,
+				importance = importance,
+				flag = flag,
+				remind_time = remind_time,
+				remark = remark,
+				user_id = user_id,
+				add_time = timezone.datetime.now(),
+				complete = 0,
+				achieve = 1,
+			)
 		return render(request, 'todolist/todolist.html')
 	else:
 		return render(request, 'todolist/todolist.html')
@@ -46,6 +62,21 @@ def TodolistDeleteView(request):
 	if request.method == "POST":
 		id = request.POST.get('id')
 		TodoList.objects.filter(id=id).update(
-			achieve = False
+			achieve = 0,
+		)
+	return HttpResponse(200)
+
+def RecycleView(request):
+	try:
+		todolists = TodoList.objects.filter(achieve=0, user_id=request.user).all().order_by('complete', '-remind_time')
+	except:
+		todolists = {}
+	return render(request, "todolist/recycle.html", {'todolists': todolists})
+
+def TodolistRecoveryView(request):
+	if request.method == "POST":
+		id = request.POST.get('id')
+		TodoList.objects.filter(id=id).update(
+			achieve = 1,
 		)
 	return HttpResponse(200)

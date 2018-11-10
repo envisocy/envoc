@@ -1,0 +1,101 @@
+{% extends 'todolist/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+    TodoList
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css' %}">
+    <style>
+        main > div {
+            margin: 20px auto;
+        }
+
+        main > div > h2 {
+            display: block;
+            margin: 20px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="w-75">
+        <h2>Rubbish is the resource placed in wrong place.</h2>
+        <div class="row mb-2" style="margin-left: 90%">
+            <a href='{% url '清单' %}' class="btn btn-primary ml-2">返回清单页</a>
+        </div>
+        <table class="table table-hover">
+            <thead>
+            <th scope="col">Done</th>
+            <th scope="col">事件</th>
+            <th scope="col">描述</th>
+            <th scope="col">重要性</th>
+            <th scope="col">旗子</th>
+            <th scope="col">提醒时间</th>
+            <th scope="col">备注</th>
+            <th scope="col"></th>
+            </thead>
+            <tbody>
+            {% for todolist in todolists %}
+                <tr>
+                    <th><input class="done" type="checkbox" {% if todolist.complete %} checked="checked" {% endif %} value="{{ todolist.id }}">
+                    </th>
+                    <td class="td-event">{{ todolist.event }}</td>
+                    <td class="td-describe">{{ todolist.describe }}</td>
+                    <td class="td-importance">{{ todolist.importance }}</td>
+                    <td class="td-flag">{{ todolist.flag }}</td>
+                    <td class="td-remindtime">{{ todolist.remind_time }}</td>
+                    <td class="td-remark">{{ todolist.remark }}</td>
+                    <td>
+                        <button type="button" class="recovery btn btn-success">恢复</button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            {% if message %}
+                <div>
+                    {{ message }}
+                </div>
+            {% endif %}
+        </table>
+    </div>
+    <h1>{{ msg }}</h1>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $('.done').on('click', function () {
+            var done = $(this).prop('checked');
+            var id = $(this).attr('value');
+            console.log(id, done);
+            $.ajax({
+                url: "{% url '完成状态切换' %}",
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    "csrfmiddlewaretoken": "{{ csrf_token }}",
+                    "id": id,
+                    "done": done,
+                },
+                async: true,
+            });
+        });
+        $('.recovery').on('click', function () {
+            var id = $(this).parent().parent().children('th').children('input').attr("value");
+            $.ajax({
+                url: "{% url '恢复清单' %}",
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    "csrfmiddlewaretoken": "{{ csrf_token }}",
+                    "id": id,
+                },
+                async: false,
+            });
+            window.location.reload()
+        });
+    </script>
+{% endblock %}
+
