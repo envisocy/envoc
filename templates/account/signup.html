@@ -22,3 +22,11 @@
     <h2>抱歉，网页注册功能暂未开放！</h2>
     <img src="{% static 'image/unconst.gif' %}" alt="">
 {% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        setTimeout(function(){
+            window.location.href='{% url '主页' %}';
+        }, 3000);
+    </script>
+{% endblock %}

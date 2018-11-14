@@ -23,6 +23,7 @@
 {% block content %}
     <div class="w-75">
         <h2>A day is a miniature of eternity.</h2>
+        <p>{{ user }}</p>
         <div class="row mb-2">
             <button id="add" class="btn btn-success" style="margin-left: 80%;" data-toggle="modal" data-target="#myModal">+ 添加新的todolist</button>
             <a href='{% url '回收站' %}' id="recycle" class="btn btn-primary ml-2">回收站</a>

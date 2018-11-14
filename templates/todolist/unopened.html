@@ -1,0 +1,32 @@
+{% extends 'todolist/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+    UnOpened
+{% endblock %}
+
+{% block css %}
+    <style>
+        main > h2 {
+            display: block;
+            margin: 100px auto;
+        }
+        main > img {
+            margin: 60px auto;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h2>抱歉，Todolist功能对非注册用户未开放！</h2>
+    <img src="{% static 'image/unconst.gif' %}" alt="">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        setTimeout(function(){
+            window.location.href='{% url '主页' %}';
+        }, 3000);
+    </script>
+{% endblock %}

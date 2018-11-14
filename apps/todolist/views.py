@@ -1,15 +1,19 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from .models import TodoList
 from django.utils import timezone
+
 
 # Create your views here.
 
 def TodolistView(request):
-	try:
-		todolists = TodoList.objects.filter(achieve=1, user_id=request.user).all().order_by('complete', '-remind_time')
-	except:
-		todolists = {}
-	return render(request, "todolist/todolist.html", {'todolists': todolists})
+	if request.user.is_authenticated:
+		try:
+			todolists = TodoList.objects.filter(achieve=1, user_id=request.user).all().order_by('complete', '-remind_time')
+		except:
+			todolists = {}
+		return render(request, "todolist/todolist.html", {'todolists': todolists})
+	else:
+		return render(request, "todolist/unopened.html")
 
 def TodolistSubmitView(request):
 	if request.method == 'POST':
